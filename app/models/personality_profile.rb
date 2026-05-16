@@ -1,0 +1,2 @@
+class PersonalityProfile < ApplicationRecord
+end
