@@ -19,8 +19,33 @@ class TestsController < ApplicationController
     if Question.exists?(position: next_question_position)
       redirect_to test_path(next_question_position)
     else
-      redirect_to root_path, notice: "Test terminé. Calcul du résultat à venir."
+      redirect_to results_path
     end
   end
-    
+
+def results
+  answers = session[:answers] || {}
+
+  scores = {
+    "D" => 0,
+    "I" => 0,
+    "S" => 0,
+    "C" => 0
+  }
+
+  answers.each_value do |choice_id|
+    choice = Choice.find(choice_id)
+
+    scores[choice.disc_type] += 1
+  end
+
+  sorted_scores = scores.sort_by { |_, score| -score }
+
+  @primary_type = sorted_scores[0][0]
+  @secondary_type = sorted_scores[1][0]
+
+  @scores = scores
+end
+
+
 end
