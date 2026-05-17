@@ -1,2 +1,18 @@
-<h1>Tests#show</h1>
-<p>Find me in app/views/tests/show.html.erb</p>
+<h1>Question <%= @question.position %></h1>
+
+<p><%= @question.content %></p>
+
+<%= form_with url: answer_test_path(@question.position), method: :post do %>
+  <% @question.choices.each do |choice| %>
+    <div>
+      <%= radio_button_tag :choice_id, choice.id %>
+      <%= label_tag "choice_id_#{choice.id}", choice.content %>
+    </div>
+  <% end %>
+
+  <br>
+
+  <%= submit_tag "Valider ma réponse" %>
+<% end %>
+
+<%= link_to "Retour à l’accueil", root_path %>
