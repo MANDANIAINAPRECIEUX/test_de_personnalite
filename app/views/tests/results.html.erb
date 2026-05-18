@@ -1,0 +1,16 @@
+<h1>Votre résultat DISC</h1>
+
+<h2>Profil principal : <%= @primary_type %></h2>
+
+<h2>Profil secondaire : <%= @secondary_type %></h2>
+
+<h3>Scores</h3>
+
+<ul>
+  <li>Dominant : <%= @scores["D"] %></li>
+  <li>Influent : <%= @scores["I"] %></li>
+  <li>Stable : <%= @scores["S"] %></li>
+  <li>Consciencieux : <%= @scores["C"] %></li>
+</ul>
+
+<%= link_to "Refaire le test", root_path %>
