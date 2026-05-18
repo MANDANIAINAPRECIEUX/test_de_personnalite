@@ -70,22 +70,129 @@ puts "Questions et choix créés avec succès."
 
 
 
-PersonalityProfile.create!(
-  code: "D-I",
-  name: "Dominant–Influent",
-  description: "Personne ambitieuse, énergique et persuasive.",
-  strengths: "Leadership, motivation, communication",
-  weaknesses: "Impatience, impulsivité",
-  advice: "Apprendre à écouter davantage les autres.",
-  careers: "Manager, entrepreneur, commercial"
-)
 
-PersonalityProfile.create!(
-  code: "S-C",
-  name: "Stable–Consciencieux",
-  description: "Personne calme, organisée et méthodique.",
-  strengths: "Patience, précision, fiabilité",
-  weaknesses: "Difficulté à gérer le changement",
-  advice: "Développer plus de flexibilité.",
-  careers: "Comptable, analyste, gestionnaire"
-)
+profiles = [
+  {
+    code: "D-I",
+    name: "Dominant–Influent",
+    description: "Leader charismatique, ambitieux et énergique.",
+    strengths: "Leadership, persuasion, motivation",
+    weaknesses: "Impatience, impulsivité",
+    advice: "Développer l’écoute et la patience.",
+    careers: "Manager, entrepreneur, commercial"
+  },
+
+  {
+    code: "D-S",
+    name: "Dominant–Stable",
+    description: "Leader calme et déterminé.",
+    strengths: "Persévérance, stabilité, responsabilité",
+    weaknesses: "Rigidité, difficulté à déléguer",
+    advice: "Être plus flexible face au changement.",
+    careers: "Chef de projet, superviseur"
+  },
+
+  {
+    code: "D-C",
+    name: "Dominant–Consciencieux",
+    description: "Personne exigeante et stratégique.",
+    strengths: "Analyse, précision, leadership",
+    weaknesses: "Perfectionnisme, critique excessive",
+    advice: "Accepter davantage les imperfections.",
+    careers: "Ingénieur, analyste, directeur technique"
+  },
+
+  {
+    code: "I-D",
+    name: "Influent–Dominant",
+    description: "Communicatif et ambitieux.",
+    strengths: "Communication, enthousiasme, influence",
+    weaknesses: "Impulsivité, impatience",
+    advice: "Mieux structurer les décisions.",
+    careers: "Marketing, vente, communication"
+  },
+
+  {
+    code: "I-S",
+    name: "Influent–Stable",
+    description: "Personne chaleureuse et sociable.",
+    strengths: "Empathie, optimisme, écoute",
+    weaknesses: "Difficulté à dire non",
+    advice: "Apprendre à poser des limites.",
+    careers: "RH, coaching, enseignement"
+  },
+
+  {
+    code: "I-C",
+    name: "Influent–Consciencieux",
+    description: "Créatif mais organisé.",
+    strengths: "Créativité, communication, précision",
+    weaknesses: "Stress face aux critiques",
+    advice: "Développer la confiance en soi.",
+    careers: "Designer, consultant, rédacteur"
+  },
+
+  {
+    code: "S-D",
+    name: "Stable–Dominant",
+    description: "Patient mais capable de diriger.",
+    strengths: "Calme, persévérance, stabilité",
+    weaknesses: "Résistance au changement",
+    advice: "Sortir davantage de la zone de confort.",
+    careers: "Coordinateur, gestionnaire"
+  },
+
+  {
+    code: "S-I",
+    name: "Stable–Influent",
+    description: "Personne coopérative et positive.",
+    strengths: "Travail d’équipe, soutien, sociabilité",
+    weaknesses: "Manque d’affirmation",
+    advice: "Développer l’assurance personnelle.",
+    careers: "Assistant social, éducateur"
+  },
+
+  {
+    code: "S-C",
+    name: "Stable–Consciencieux",
+    description: "Méthodique et fiable.",
+    strengths: "Organisation, patience, rigueur",
+    weaknesses: "Difficulté avec l’imprévu",
+    advice: "Être plus adaptable.",
+    careers: "Comptable, administratif"
+  },
+
+  {
+    code: "C-D",
+    name: "Consciencieux–Dominant",
+    description: "Stratégique et discipliné.",
+    strengths: "Analyse, organisation, décision",
+    weaknesses: "Exigence excessive",
+    advice: "Faire davantage confiance aux autres.",
+    careers: "Ingénieur, auditeur"
+  },
+
+  {
+    code: "C-I",
+    name: "Consciencieux–Influent",
+    description: "Analytique mais sociable.",
+    strengths: "Communication, logique, précision",
+    weaknesses: "Sur-analyse",
+    advice: "Prendre des décisions plus rapidement.",
+    careers: "Consultant, analyste"
+  },
+
+  {
+    code: "C-S",
+    name: "Consciencieux–Stable",
+    description: "Prudent et très organisé.",
+    strengths: "Fiabilité, patience, précision",
+    weaknesses: "Difficulté à prendre des risques",
+    advice: "Accepter davantage l’incertitude.",
+    careers: "Qualité, finance, administration"
+  }
+]
+
+profiles.each do |profile|
+  PersonalityProfile.create!(profile)
+end
