@@ -13,4 +13,33 @@
   <li>Consciencieux : <%= @scores["C"] %></li>
 </ul>
 
+<% if @profile %>
+  <h2><%= @profile.name %></h2>
+
+  <p>
+    <strong>Description :</strong>
+    <%= @profile.description %>
+  </p>
+
+  <p>
+    <strong>Forces :</strong>
+    <%= @profile.strengths %>
+  </p>
+
+  <p>
+    <strong>Faiblesses :</strong>
+    <%= @profile.weaknesses %>
+  </p>
+
+  <p>
+    <strong>Conseils :</strong>
+    <%= @profile.advice %>
+  </p>
+
+  <p>
+    <strong>Métiers adaptés :</strong>
+    <%= @profile.careers %>
+  </p>
+<% end %>
+
 <%= link_to "Refaire le test", root_path %>

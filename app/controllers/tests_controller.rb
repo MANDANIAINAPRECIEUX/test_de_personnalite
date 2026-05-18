@@ -45,6 +45,10 @@ def results
   @secondary_type = sorted_scores[1][0]
 
   @scores = scores
+
+  profile_code = "#{@primary_type}-#{@secondary_type}"
+
+@profile = PersonalityProfile.find_by(code: profile_code)
 end
 
 

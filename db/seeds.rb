@@ -67,3 +67,25 @@ questions.each_with_index do |question_data, index|
 end
 
 puts "Questions et choix créés avec succès."
+
+
+
+PersonalityProfile.create!(
+  code: "D-I",
+  name: "Dominant–Influent",
+  description: "Personne ambitieuse, énergique et persuasive.",
+  strengths: "Leadership, motivation, communication",
+  weaknesses: "Impatience, impulsivité",
+  advice: "Apprendre à écouter davantage les autres.",
+  careers: "Manager, entrepreneur, commercial"
+)
+
+PersonalityProfile.create!(
+  code: "S-C",
+  name: "Stable–Consciencieux",
+  description: "Personne calme, organisée et méthodique.",
+  strengths: "Patience, précision, fiabilité",
+  weaknesses: "Difficulté à gérer le changement",
+  advice: "Développer plus de flexibilité.",
+  careers: "Comptable, analyste, gestionnaire"
+)
