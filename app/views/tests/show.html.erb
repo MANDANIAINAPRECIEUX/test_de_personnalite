@@ -31,8 +31,12 @@
     <%= form_with url: answer_test_path(@question.position), method: :post do %>
       <div class="space-y-4">
         <% @question.choices.each do |choice| %>
-          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 transition">
-            <%= radio_button_tag :choice_id, choice.id, false, class: "w-5 h-5 text-blue-600" %>
+          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 hover:scale-[1.02] transition duration-200">
+           <%= radio_button_tag :choice_id,
+    choice.id,
+    false,
+    class: "w-5 h-5 text-blue-600",
+    required: true %>
 
             <span class="text-gray-700 text-lg">
               <%= choice.content %>
@@ -42,7 +46,7 @@
       </div>
 
       <%= submit_tag "Valider ma réponse",
-          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition" %>
+          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 hover:scale-[1.01] text-white font-semibold py-4 rounded-xl transition duration-200"
     <% end %>
 
     <div class="mt-6 text-center">
