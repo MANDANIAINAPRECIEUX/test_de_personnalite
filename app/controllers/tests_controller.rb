@@ -49,6 +49,15 @@ def results
   profile_code = "#{@primary_type}-#{@secondary_type}"
 
 @profile = PersonalityProfile.find_by(code: profile_code)
+@test_result = TestResult.create!(
+  dominant_score: scores["D"],
+  influent_score: scores["I"],
+  stable_score: scores["S"],
+  conscientious_score: scores["C"],
+  primary_type: @primary_type,
+  secondary_type: @secondary_type,
+  profile_code: profile_code
+)
 end
 
 
