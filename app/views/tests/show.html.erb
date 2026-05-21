@@ -1,18 +1,33 @@
-<h1>Question <%= @question.position %></h1>
+<div class="min-h-screen bg-slate-100 flex items-center justify-center px-4">
+  <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-2xl w-full">
 
-<p><%= @question.content %></p>
+    <p class="text-sm font-semibold text-blue-600 mb-2">
+      Question <%= @question.position %>
+    </p>
 
-<%= form_with url: answer_test_path(@question.position), method: :post do %>
-  <% @question.choices.each do |choice| %>
-    <div>
-      <%= radio_button_tag :choice_id, choice.id %>
-      <%= label_tag "choice_id_#{choice.id}", choice.content %>
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      <%= @question.content %>
+    </h1>
+
+    <%= form_with url: answer_test_path(@question.position), method: :post do %>
+      <div class="space-y-4">
+        <% @question.choices.each do |choice| %>
+          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 transition">
+            <%= radio_button_tag :choice_id, choice.id, false, class: "w-5 h-5 text-blue-600" %>
+            <span class="text-gray-700 text-lg">
+              <%= choice.content %>
+            </span>
+          </label>
+        <% end %>
+      </div>
+
+      <%= submit_tag "Valider ma réponse",
+          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition" %>
+    <% end %>
+
+    <div class="mt-6 text-center">
+      <%= link_to "Retour à l’accueil", root_path, class: "text-gray-500 hover:text-blue-600" %>
     </div>
-  <% end %>
 
-  <br>
-
-  <%= submit_tag "Valider ma réponse" %>
-<% end %>
-
-<%= link_to "Retour à l’accueil", root_path %>
+  </div>
+</div>
