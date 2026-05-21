@@ -1,51 +1,33 @@
-<h1>Votre résultat DISC</h1>
+<div class="min-h-screen bg-slate-100 flex items-center justify-center px-4">
+  <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-2xl w-full">
 
-<h2>Profil principal : <%= @primary_name %></h2>
-<h2>Profil secondaire : <%= @secondary_name %></h2>
+    <p class="text-sm font-semibold text-blue-600 mb-2">
+      Question <%= @question.position %>
+    </p>
 
-<h2>Profil combiné : <%= @primary_type %>-<%= @secondary_type %></h2>
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      <%= @question.content %>
+    </h1>
 
-<h3>Scores</h3>
+    <%= form_with url: answer_test_path(@question.position), method: :post do %>
+      <div class="space-y-4">
+        <% @question.choices.each do |choice| %>
+          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 transition">
+            <%= radio_button_tag :choice_id, choice.id, false, class: "w-5 h-5 text-blue-600" %>
+            <span class="text-gray-700 text-lg">
+              <%= choice.content %>
+            </span>
+          </label>
+        <% end %>
+      </div>
 
-<ul>
-  <li>Dominant : <%= @scores["D"] %></li>
-  <li>Influent : <%= @scores["I"] %></li>
-  <li>Stable : <%= @scores["S"] %></li>
-  <li>Consciencieux : <%= @scores["C"] %></li>
-</ul>
+      <%= submit_tag "Valider ma réponse",
+          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition" %>
+    <% end %>
 
-<% if @profile %>
-  <h2><%= @profile.name %></h2>
+    <div class="mt-6 text-center">
+      <%= link_to "Retour à l’accueil", root_path, class: "text-gray-500 hover:text-blue-600" %>
+    </div>
 
-  <p>
-    <strong>Description :</strong>
-    <%= @profile.description %>
-  </p>
-
-  <p>
-    <strong>Forces :</strong>
-    <%= @profile.strengths %>
-  </p>
-
-  <p>
-    <strong>Faiblesses :</strong>
-    <%= @profile.weaknesses %>
-  </p>
-
-  <p>
-    <strong>Conseils :</strong>
-    <%= @profile.advice %>
-  </p>
-
-  <p>
-    <strong>Métiers adaptés :</strong>
-    <%= @profile.careers %>
-  </p>
-<% end %>
-
-<%= link_to "Refaire le test", root_path %>
-
-<p>
-  Résultat sauvegardé avec l’ID :
-  <%= @test_result.id %>
-</p>
+  </div>
+</div>
