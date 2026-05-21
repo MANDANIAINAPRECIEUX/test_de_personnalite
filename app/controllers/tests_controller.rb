@@ -1,5 +1,6 @@
 class TestsController < ApplicationController
   def index
+      session[:answers] = {}
   end
 
   def show
