@@ -1,10 +1,46 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+}
+
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-card {
+  background: white;
+  padding: 40px;
+  max-width: 600px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.home-card h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.home-card p {
+  font-size: 18px;
+  color: #555;
+}
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 24px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
