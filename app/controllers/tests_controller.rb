@@ -45,6 +45,17 @@ def results
   @primary_type = sorted_scores[0][0]
   @secondary_type = sorted_scores[1][0]
 
+  type_names = {
+  "D" => "Dominant",
+  "I" => "Influent",
+  "S" => "Stable",
+  "C" => "Consciencieux"
+}
+
+@primary_name = type_names[@primary_type]
+@secondary_name = type_names[@secondary_type]
+
+
   @scores = scores
 
   profile_code = "#{@primary_type}-#{@secondary_type}"
