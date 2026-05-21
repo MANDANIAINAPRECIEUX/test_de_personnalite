@@ -1,32 +1,105 @@
-<div class="min-h-screen bg-slate-100 flex items-center justify-center px-4">
-  <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-2xl w-full">
+<div class="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-10">
+  <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-3xl w-full">
 
-    <p class="text-sm font-semibold text-blue-600 mb-2">
-      Question <%= @question.position %>
-    </p>
-
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">
-      <%= @question.content %>
+    <h1 class="text-4xl font-bold text-blue-600 mb-6 text-center">
+      Votre résultat DISC
     </h1>
 
-    <%= form_with url: answer_test_path(@question.position), method: :post do %>
-      <div class="space-y-4">
-        <% @question.choices.each do |choice| %>
-          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 transition">
-            <%= radio_button_tag :choice_id, choice.id, false, class: "w-5 h-5 text-blue-600" %>
-            <span class="text-gray-700 text-lg">
-              <%= choice.content %>
-            </span>
-          </label>
-        <% end %>
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
+
+      <div class="bg-blue-50 rounded-2xl p-4 text-center">
+        <p class="text-sm text-gray-500">Profil principal</p>
+
+        <h2 class="text-xl font-bold text-blue-700">
+          <%= @primary_name %>
+        </h2>
       </div>
 
-      <%= submit_tag "Valider ma réponse",
-          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition" %>
+      <div class="bg-indigo-50 rounded-2xl p-4 text-center">
+        <p class="text-sm text-gray-500">Profil secondaire</p>
+
+        <h2 class="text-xl font-bold text-indigo-700">
+          <%= @secondary_name %>
+        </h2>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4 text-center">
+        <p class="text-sm text-gray-500">Profil combiné</p>
+
+        <h2 class="text-xl font-bold text-gray-800">
+          <%= @primary_type %>-<%= @secondary_type %>
+        </h2>
+      </div>
+
+    </div>
+
+    <h3 class="text-2xl font-bold text-gray-800 mb-4">
+      Scores
+    </h3>
+
+    <div class="space-y-3 mb-8">
+      <p>
+        Dominant :
+        <strong><%= @scores["D"] %></strong>
+      </p>
+
+      <p>
+        Influent :
+        <strong><%= @scores["I"] %></strong>
+      </p>
+
+      <p>
+        Stable :
+        <strong><%= @scores["S"] %></strong>
+      </p>
+
+      <p>
+        Consciencieux :
+        <strong><%= @scores["C"] %></strong>
+      </p>
+    </div>
+
+    <% if @profile %>
+
+      <div class="border-t pt-6 space-y-4">
+
+        <h2 class="text-3xl font-bold text-gray-900">
+          <%= @profile.name %>
+        </h2>
+
+        <p>
+          <strong>Description :</strong>
+          <%= @profile.description %>
+        </p>
+
+        <p>
+          <strong>Forces :</strong>
+          <%= @profile.strengths %>
+        </p>
+
+        <p>
+          <strong>Faiblesses :</strong>
+          <%= @profile.weaknesses %>
+        </p>
+
+        <p>
+          <strong>Conseils :</strong>
+          <%= @profile.advice %>
+        </p>
+
+        <p>
+          <strong>Métiers adaptés :</strong>
+          <%= @profile.careers %>
+        </p>
+
+      </div>
+
     <% end %>
 
-    <div class="mt-6 text-center">
-      <%= link_to "Retour à l’accueil", root_path, class: "text-gray-500 hover:text-blue-600" %>
+    <div class="mt-8 text-center">
+      <%= link_to "Refaire le test",
+          root_path,
+          class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition" %>
     </div>
 
   </div>

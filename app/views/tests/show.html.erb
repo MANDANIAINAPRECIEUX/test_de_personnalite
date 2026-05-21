@@ -1,6 +1,25 @@
 <div class="min-h-screen bg-slate-100 flex items-center justify-center px-4">
   <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-2xl w-full">
 
+    <div class="mb-6">
+      <div class="flex justify-between text-sm text-gray-500 mb-2">
+        <span>
+          Question <%= @question.position %> sur <%= @total_questions %>
+        </span>
+
+        <span>
+          <%= ((@question.position.to_f / @total_questions) * 100).round %>%
+        </span>
+      </div>
+
+      <div class="w-full bg-gray-200 rounded-full h-3">
+        <div
+          class="bg-blue-600 h-3 rounded-full"
+          style="width: <%= ((@question.position.to_f / @total_questions) * 100) %>%">
+        </div>
+      </div>
+    </div>
+
     <p class="text-sm font-semibold text-blue-600 mb-2">
       Question <%= @question.position %>
     </p>
@@ -14,6 +33,7 @@
         <% @question.choices.each do |choice| %>
           <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 transition">
             <%= radio_button_tag :choice_id, choice.id, false, class: "w-5 h-5 text-blue-600" %>
+
             <span class="text-gray-700 text-lg">
               <%= choice.content %>
             </span>

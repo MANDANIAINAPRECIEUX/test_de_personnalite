@@ -4,12 +4,14 @@ class TestsController < ApplicationController
   end
 
   def show
-    @question = Question.find_by(position: params[:id])
+  @question = Question.find_by(position: params[:id])
 
-    if @question.nil?
-      redirect_to root_path, alert: "Question introuvable"
-    end
+  if @question.nil?
+    redirect_to root_path, alert: "Question introuvable"
   end
+
+  @total_questions = Question.count
+end
 
  def answer
     session[:answers] ||= {}
