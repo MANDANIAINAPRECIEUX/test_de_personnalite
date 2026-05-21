@@ -50,7 +50,7 @@ def results
   profile_code = "#{@primary_type}-#{@secondary_type}"
 
 @profile = PersonalityProfile.find_by(code: profile_code)
-@test_result = TestResult.create!(
+@test_result = TestResult.find_or_create_by!(
   dominant_score: scores["D"],
   influent_score: scores["I"],
   stable_score: scores["S"],
