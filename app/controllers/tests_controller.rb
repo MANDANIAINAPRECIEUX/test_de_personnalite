@@ -40,6 +40,15 @@ def results
     choice = Choice.find(choice_id)
 
     scores[choice.disc_type] += 1
+
+    @profile_colors = {
+  "D" => "from-red-500 to-red-700",
+  "I" => "from-yellow-400 to-orange-500",
+  "S" => "from-green-500 to-emerald-700",
+  "C" => "from-blue-500 to-indigo-700"
+}
+
+@profile_gradient = @profile_colors[@primary_type]
   end
 
   sorted_scores = scores.sort_by { |_, score| -score }
