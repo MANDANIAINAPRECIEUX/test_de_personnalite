@@ -1,57 +1,663 @@
-<div class="min-h-screen bg-slate-100 flex items-center justify-center px-4">
-  <div class="bg-white shadow-2xl rounded-3xl p-8 max-w-2xl w-full">
+<%# ============================================================
+    Vue : Question du test DISC
+    Route : answer_test_path(@question.position)
+    Variables : @question (position, content, choices), @total_questions
+    ============================================================ %>
 
-    <div class="mb-6">
-      <div class="flex justify-between text-sm text-gray-500 mb-2">
-        <span>
-          Question <%= @question.position %> sur <%= @total_questions %>
-        </span>
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question <%= @question.position %> / <%= @total_questions %> — Test DISC</title>
 
-        <span>
-          <%= ((@question.position.to_f / @total_questions) * 100).round %>%
-        </span>
-      </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300..700&display=swap" rel="stylesheet">
 
-      <div class="w-full bg-gray-200 rounded-full h-3">
-        <div
-          class="bg-blue-600 h-3 rounded-full"
-          style="width: <%= ((@question.position.to_f / @total_questions) * 100) %>%">
-        </div>
-      </div>
-    </div>
+  <style>
+    /* ===== DESIGN TOKENS (cohérent avec la landing) ===== */
+    :root, [data-theme="light"] {
+      --color-bg:               #f7f6f2;
+      --color-surface:          #f9f8f5;
+      --color-surface-2:        #fbfbf9;
+      --color-surface-offset:   #f0ede8;
+      --color-surface-dynamic:  #e6e4df;
+      --color-divider:          #dcd9d5;
+      --color-border:           #d4d1ca;
 
-    <p class="text-sm font-semibold text-blue-600 mb-2">
-      Question <%= @question.position %>
-    </p>
+      --color-text:             #28251d;
+      --color-text-muted:       #6b6a65;
+      --color-text-faint:       #b0afa9;
+      --color-text-inverse:     #f9f8f4;
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">
-      <%= @question.content %>
-    </h1>
+      --color-primary:          #01696f;
+      --color-primary-hover:    #0c4e54;
+      --color-primary-active:   #0f3638;
+      --color-primary-highlight:#d4e8e6;
 
-    <%= form_with url: answer_test_path(@question.position), method: :post do %>
-      <div class="space-y-4">
-        <% @question.choices.each do |choice| %>
-          <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-4 cursor-pointer hover:bg-blue-50 hover:scale-[1.02] transition duration-200">
-           <%= radio_button_tag :choice_id,
-    choice.id,
-    false,
-    class: "w-5 h-5 text-blue-600",
-    required: true %>
+      --color-error:            #a12c7b;
 
-            <span class="text-gray-700 text-lg">
-              <%= choice.content %>
-            </span>
-          </label>
-        <% end %>
-      </div>
+      --radius-sm:   0.375rem;
+      --radius-md:   0.5rem;
+      --radius-lg:   0.75rem;
+      --radius-xl:   1rem;
+      --radius-2xl:  1.25rem;
+      --radius-full: 9999px;
 
-      <%= submit_tag "Valider ma réponse",
-          class: "mt-8 w-full bg-blue-600 hover:bg-blue-700 hover:scale-[1.01] text-white font-semibold py-4 rounded-xl transition duration-200"  %>
+      --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
+      --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+      --shadow-lg: 0 16px 40px oklch(0.2 0.01 80 / 0.10);
+
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+      --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --space-1:  0.25rem;
+      --space-2:  0.5rem;
+      --space-3:  0.75rem;
+      --space-4:  1rem;
+      --space-5:  1.25rem;
+      --space-6:  1.5rem;
+      --space-8:  2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+
+      --content-narrow: 560px;
+    }
+
+    [data-theme="dark"] {
+      --color-bg:               #171614;
+      --color-surface:          #1c1b19;
+      --color-surface-2:        #201f1d;
+      --color-surface-offset:   #22211f;
+      --color-surface-dynamic:  #2d2c2a;
+      --color-divider:          #262523;
+      --color-border:           #393836;
+      --color-text:             #cdccca;
+      --color-text-muted:       #797876;
+      --color-text-faint:       #5a5957;
+      --color-text-inverse:     #2b2a28;
+      --color-primary:          #4f98a3;
+      --color-primary-hover:    #227f8b;
+      --color-primary-active:   #1a626b;
+      --color-primary-highlight:#1e3535;
+      --color-error:            #d163a7;
+      --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.25);
+      --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35);
+      --shadow-lg: 0 16px 40px oklch(0 0 0 / 0.45);
+    }
+
+    /* ===== BASE RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+      transition: background-color var(--transition), color var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    button   { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+    input    { font: inherit; color: inherit; }
+
+    ::selection { background: oklch(from var(--color-primary) l c h / 0.18); }
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ===== LAYOUT ===== */
+    .page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(var(--space-8), 5vw, var(--space-12)) var(--space-4);
+      gap: var(--space-8);
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      width: 100%;
+      max-width: var(--content-narrow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      color: var(--color-text);
+    }
+    .topbar-logo-text {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--color-text);
+    }
+    .topbar-logo-text span { color: var(--color-primary); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      transition: background var(--transition), color var(--transition);
+    }
+    .theme-toggle:hover {
+      background: var(--color-surface-offset);
+      color: var(--color-text);
+    }
+
+    /* ===== PROGRESS SECTION ===== */
+    .progress-section {
+      width: 100%;
+      max-width: var(--content-narrow);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .progress-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .progress-step {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+
+    .progress-pct {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      height: 4px;
+      background: var(--color-surface-dynamic);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      /* La largeur est injectée en inline style Ruby ci-dessous */
+    }
+
+    /* ===== QUESTION CARD ===== */
+    .question-card {
+      width: 100%;
+      max-width: var(--content-narrow);
+      background: var(--color-surface);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-2xl);
+      padding: clamp(var(--space-6), 4vw, var(--space-10));
+      box-shadow:
+        0 1px 2px oklch(0.2 0.01 80 / 0.04),
+        0 8px 24px oklch(0.2 0.01 80 / 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    /* Numéro + intitulé */
+    .question-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .question-number {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+
+    .question-text {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--color-text);
+    }
+
+    /* ===== CHOIX ===== */
+    .choices-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      list-style: none;
+    }
+
+    .choice-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.09);
+      border-radius: var(--radius-lg);
+      background: var(--color-bg);
+      cursor: pointer;
+      transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+      position: relative;
+    }
+
+    .choice-label:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary-highlight);
+      box-shadow: var(--shadow-sm);
+      transform: translateX(2px);
+    }
+
+    /* Radio input masqué — radio custom visible */
+    .choice-radio {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .choice-indicator {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid oklch(from var(--color-text) l c h / 0.25);
+      background: var(--color-surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .choice-indicator::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      opacity: 0;
+      transform: scale(0.4);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    /* État sélectionné via JS (classe .is-selected) */
+    .choice-label.is-selected {
+      border-color: var(--color-primary);
+      background: color-mix(in oklch, var(--color-primary) 8%, var(--color-surface));
+      box-shadow: 0 0 0 3px oklch(from var(--color-primary) l c h / 0.12);
+    }
+
+    .choice-label.is-selected .choice-indicator {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+    }
+
+    .choice-label.is-selected .choice-indicator::after {
+      opacity: 1;
+      transform: scale(1);
+      background: var(--color-text-inverse);
+    }
+
+    /* État natif :checked pour accessibilité sans JS */
+    .choice-radio:checked ~ .choice-indicator {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+    }
+
+    .choice-radio:checked ~ .choice-indicator::after {
+      opacity: 1;
+      transform: scale(1);
+      background: var(--color-text-inverse);
+    }
+
+    .choice-radio:focus-visible ~ .choice-indicator {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .choice-text {
+      font-size: var(--text-base);
+      color: var(--color-text);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    /* ===== ACTIONS ===== */
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-divider);
+    }
+
+    .btn-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border-radius: var(--radius-lg);
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition:
+        background var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px oklch(from var(--color-primary) l c h / 0.28);
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-submit svg {
+      transition: transform var(--transition);
+    }
+    .btn-submit:hover:not(:disabled) svg {
+      transform: translateX(3px);
+    }
+
+    /* Message validation inline */
+    .validation-hint {
+      font-size: var(--text-xs);
+      color: var(--color-error);
+      text-align: center;
+      min-height: 1.2em;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .validation-hint.visible { opacity: 1; }
+
+    /* Lien retour */
+    .back-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--color-text-muted); }
+
+    /* ===== FOOTER ===== */
+    .page-footer {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-align: center;
+      padding-bottom: var(--space-6);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .question-card {
+        border-radius: var(--radius-xl);
+        padding: var(--space-6);
+      }
+      .choice-label { gap: var(--space-3); padding: var(--space-4); }
+    }
+  </style>
+</head>
+
+<body>
+
+<main class="page">
+
+  <!-- TOP BAR : logo + toggle thème -->
+  <header class="topbar">
+    <%= link_to root_path, class: "topbar-logo", aria: { label: "Retour à l'accueil" } do %>
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1.5" opacity="0.15"/>
+        <path d="M10 9h5.5C18.538 9 21 11.462 21 16c0 4.538-2.462 7-5.5 7H10V9Z" fill="currentColor" opacity="0.85"/>
+        <path d="M13 12.5h2.2c1.82 0 3.3 1.568 3.3 3.5s-1.48 3.5-3.3 3.5H13v-7Z" fill="var(--color-surface)" opacity="0.9"/>
+      </svg>
+      <span class="topbar-logo-text">disc<span>profile</span></span>
     <% end %>
 
-    <div class="mt-6 text-center">
-      <%= link_to "Retour à l’accueil", root_path, class: "text-gray-500 hover:text-blue-600" %>
+    <div class="topbar-right">
+      <button
+        class="theme-toggle"
+        data-theme-toggle
+        aria-label="Basculer le thème"
+        type="button"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- BARRE DE PROGRESSION -->
+  <section class="progress-section" aria-label="Progression du test">
+    <div class="progress-meta">
+      <span class="progress-step">
+        Question <strong><%= @question.position %></strong> sur <%= @total_questions %>
+      </span>
+      <span class="progress-pct">
+        <%= ((@question.position.to_f / @total_questions) * 100).round %>&nbsp;%
+      </span>
+    </div>
+    <div class="progress-track" role="progressbar"
+         aria-valuenow="<%= @question.position %>"
+         aria-valuemin="1"
+         aria-valuemax="<%= @total_questions %>">
+      <div class="progress-fill"
+           style="width: <%= ((@question.position.to_f / @total_questions) * 100).round(2) %>%">
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTE QUESTION + FORMULAIRE -->
+  <div class="question-card">
+
+    <div class="question-header">
+      <p class="question-number" aria-hidden="true">
+        Question <%= @question.position %>
+      </p>
+      <h1 class="question-text">
+        <%= @question.content %>
+      </h1>
     </div>
 
+    <%= form_with url: answer_test_path(@question.position), method: :post, data: { form: "disc-form" } do |f| %>
+
+      <fieldset style="border:none; padding:0; margin:0;">
+        <legend class="sr-only">Choisissez une réponse</legend>
+
+        <ul class="choices-list" role="list">
+          <% @question.choices.each_with_index do |choice, index| %>
+            <li>
+              <label class="choice-label" for="choice_<%= choice.id %>">
+                <%= radio_button_tag :choice_id,
+                    choice.id,
+                    false,
+                    id: "choice_#{choice.id}",
+                    class: "choice-radio",
+                    required: true,
+                    "aria-label": choice.content %>
+                <span class="choice-indicator" aria-hidden="true"></span>
+                <span class="choice-text"><%= choice.content %></span>
+              </label>
+            </li>
+          <% end %>
+        </ul>
+      </fieldset>
+
+      <div class="card-actions">
+        <p class="validation-hint" id="validation-hint" role="alert" aria-live="polite"></p>
+
+        <%= submit_tag "Valider ma réponse",
+            class: "btn-submit",
+            id: "submit-btn",
+            disabled: true,
+            data: { submit: true } %>
+      </div>
+
+    <% end %>
+
+    <%= link_to root_path, class: "back-link" do %>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Retour à l'accueil
+    <% end %>
+
   </div>
-</div>
+
+  <footer class="page-footer">
+    Test de personnalité DISC — Anonyme &amp; confidentiel
+  </footer>
+
+</main>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+/* ---------- Thème clair / sombre ---------- */
+(function(){
+  const toggle = document.querySelector('[data-theme-toggle]');
+  const root   = document.documentElement;
+  let current  = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  root.setAttribute('data-theme', current);
+
+  const moonSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const sunSVG  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+
+  function applyIcon() {
+    if (!toggle) return;
+    toggle.innerHTML = current === 'dark' ? sunSVG : moonSVG;
+    toggle.setAttribute('aria-label', 'Basculer vers le mode ' + (current === 'dark' ? 'clair' : 'sombre'));
+  }
+  applyIcon();
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      current = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', current);
+      applyIcon();
+    });
+  }
+})();
+
+/* ---------- Sélection de choix + activation du bouton ---------- */
+(function(){
+  const radios     = document.querySelectorAll('.choice-radio');
+  const labels     = document.querySelectorAll('.choice-label');
+  const submitBtn  = document.getElementById('submit-btn');
+  const hint       = document.getElementById('validation-hint');
+
+  function clearSelection() {
+    labels.forEach(l => l.classList.remove('is-selected'));
+  }
+
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked) {
+        clearSelection();
+        radio.closest('.choice-label').classList.add('is-selected');
+        submitBtn.disabled = false;
+        hint.textContent = '';
+        hint.classList.remove('visible');
+      }
+    });
+  });
+
+  /* Empêche soumission sans sélection + message inline */
+  const form = document.querySelector('[data-form="disc-form"]');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      const anyChecked = [...radios].some(r => r.checked);
+      if (!anyChecked) {
+        e.preventDefault();
+        hint.textContent = 'Veuillez sélectionner une réponse avant de continuer.';
+        hint.classList.add('visible');
+        radios[0]?.closest('.choice-label')?.focus();
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
