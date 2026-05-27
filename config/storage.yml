@@ -23,5 +23,5 @@ local:
 
 
 
-#   primary: local
+
 #   mirrors: [ amazon, google, microsoft ]
