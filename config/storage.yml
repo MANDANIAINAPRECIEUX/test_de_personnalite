@@ -22,6 +22,6 @@ local:
 #   bucket: your_own_bucket-<%= Rails.env %>
 
 
-#   service: Mirror
+
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
