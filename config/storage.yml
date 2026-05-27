@@ -21,7 +21,7 @@ local:
 #   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
 #   bucket: your_own_bucket-<%= Rails.env %>
 
-# mirror:
+
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
