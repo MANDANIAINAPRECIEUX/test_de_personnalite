@@ -9,3 +9,5 @@ solution:
         -Remove-Item -Force .git\refs\remotes\origin\main (supprime la référence locale cassée)
         -git fetch origin
         -git branch --set-upstream-to=origin/main main
+
+...END
