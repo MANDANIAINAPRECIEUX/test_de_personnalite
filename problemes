@@ -4,3 +4,5 @@ solution: Corrige config/database.yml
 
 error: update_ref failed for ref 'refs/remotes/origin/main': cannot lock ref 'refs/remotes/origin/main': unable to resolve reference 'refs/remotes/origin/main': reference broken
 probleme: cassure de la branche main
+solution:   -git remote prune origin
+            -git fetch origin
