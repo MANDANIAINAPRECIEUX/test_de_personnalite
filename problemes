@@ -1,3 +1,6 @@
 connection to server at "127.0.0.1", port 5432 failed ==>  Rails essaie encore de se connecter à PostgreSQL local au lieu de Neon
 solution: Corrige config/database.yml
 
+
+error: update_ref failed for ref 'refs/remotes/origin/main': cannot lock ref 'refs/remotes/origin/main': unable to resolve reference 'refs/remotes/origin/main': reference broken
+probleme: cassure de la branche main
