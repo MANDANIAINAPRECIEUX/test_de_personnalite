@@ -6,3 +6,4 @@ error: update_ref failed for ref 'refs/remotes/origin/main': cannot lock ref 're
 probleme: cassure de la branche main
 solution:   -git remote prune origin
             -git fetch origin
+            - git push --set-upstream origin main ou git push -u origin main
