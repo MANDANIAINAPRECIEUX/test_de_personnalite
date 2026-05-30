@@ -2,4 +2,4 @@ connection to server at "127.0.0.1", port 5432 failed ==>  Rails essaie encore d
 solution: Corrige config/database.yml
 
 
-AUTRES PROBLEMES A
+AUTRES PROBLEMES
