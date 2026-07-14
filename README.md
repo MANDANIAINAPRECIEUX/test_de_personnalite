@@ -5,7 +5,7 @@ application up and running.
 
 on a creer l'appli avec un backend en ruby
 on peut y trouver : 
-la version de ryby
+la version de ruby, les dependances systemes
 
 * Ruby version
 
