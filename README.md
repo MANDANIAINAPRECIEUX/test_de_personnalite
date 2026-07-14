@@ -3,7 +3,7 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-on a creer
+on a creer l'appli avec un backend en ruby
 
 * Ruby version
 
