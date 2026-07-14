@@ -6,7 +6,7 @@ application up and running.
 on a creer l'appli avec un backend en ruby
 on peut y trouver : 
 la version de ruby, les dependances systemes, les configurations
-la creation de base de données
+la creation de base de données, l'initialisation des BDD
 * Ruby version
 
 * System dependencies
